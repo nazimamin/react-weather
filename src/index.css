@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400');
+body, html {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
+  color: #333;
+  font-weight: 400;
+}
+#root {
+  display: flex;
+  width: inherit;
+  height: inherit;
+  align-items: center;
+}
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: inherit;
+}
+.wrapper-box {
+  flex: none;
+  max-width: 50%;
+}
+.weather-box {
+  min-height: 350px;
+  width: 220px;
+  background: #FAFCFD;
+  border-radius: 8px;
+  justify-content: center;
+}
+#weather {
+  height: 200px;
+  display: flex;
+  align-self: flex-start;
+  align-items: center;
+  padding-bottom: 15px;
+  border-radius: 8px 8px 0 0;
+}
+.weather-icon {
+  top: 0;
+  margin-top: -25px;
+}
+#weatherCanvas {
+  top: 0px;
+  height: 110px !important;
+}
+.weather-degree {
+  cursor: pointer;
+  color: #444D4A;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 45px;
+  font-weight: 100;
+  margin-top: -53px;
+  text-align: center;
+}
+.weather-status {
+  color: #444D4A;
+  font-family: 'Lato';
+  text-align: center;
+  font-size: 18px;
+  padding: 0 20px 0 20px;
+}
+.weather-status-current {
+  margin-top: -5px;
+}
+.weather-status-minute {
+  padding-bottom: 20px;
+}
+hr {
+  width: 50px;
+  border-top: 1px #c3c3c3;
+}
