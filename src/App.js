@@ -21,10 +21,23 @@ class WeatherBox extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      temp: Math.round(props.weather.temp),
+      temp: null,
       type: "F"
     };
     this.handleClick = this.handleClick.bind(this);
+  }
+  componentWillMount() {
+    const { icon, currentSummary, hourlySummary, temp } = this.props.weather;
+    const tempicon = icon.replace(/-/g, "_").toUpperCase();
+    const style = this.setCustomGradient(tempicon);
+
+    this.setState({
+      temp: Math.round(temp),
+      icon: tempicon,
+      style: style,
+      currentSummary,
+      hourlySummary
+    });
   }
   handleClick() {
     this.state.type === "F"
@@ -70,35 +83,32 @@ class WeatherBox extends React.Component {
     }
   }
   render() {
-    const { icon, currentSummary, hourlySummary } = this.props.weather;
-    const tempicon = icon.replace("-", "_").toUpperCase();
-    const style = this.setCustomGradient(tempicon);
-    console.log(style);
     return (
       <div className="wrapper-box">
         <div className="weather-box">
-          <div id="weather" style={style}>
+          <div id="weather" style={this.state.style}>
             <div className="weather-icon">
               <Skycons
                 ref="canvas"
                 id="weatherCanvas"
                 color="white"
-                icon={tempicon}
+                icon={this.state.icon}
                 autoplay={true}
               />
             </div>
           </div>
           <div className="weather-info">
             <div className="weather-degree" onClick={this.handleClick}>
-              {this.state.temp}{`°` + this.state.type}
+              {this.state.temp}
+              {`°` + this.state.type}
             </div>
             <div className="weather-status">
               <div className="weather-status-current">
-                {currentSummary}
+                {this.state.currentSummary}
               </div>
               <hr />
               <div className="weather-status-minute">
-                {hourlySummary}
+                {this.state.hourlySummary}
               </div>
             </div>
           </div>
@@ -126,7 +136,6 @@ class App extends React.Component {
     return await fetch(url).then(response => response.json());
   }
   async componentDidMount() {
-    //changeBodyColor();
     if (navigator.geolocation) {
       await navigator.geolocation.getCurrentPosition(position => {
         this.requestWeatherData(
@@ -138,15 +147,10 @@ class App extends React.Component {
           const currentSummary = d.currently.summary;
           const hourlySummary = d.hourly.summary;
           const unit = d.flags.units;
-          this.setState(
-            {
-              weather: { icon, temp, currentSummary, hourlySummary, unit },
-              loading: false
-            },
-            () => {
-              console.log(JSON.stringify(this.state.weather));
-            }
-          );
+          this.setState({
+            weather: { icon, temp, currentSummary, hourlySummary, unit },
+            loading: false
+          });
         });
       });
     }
